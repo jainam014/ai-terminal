@@ -1,6 +1,6 @@
 {
   "name": "ai-terminal-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert natural language into safe PowerShell commands. Supports OpenAI, Claude, Ollama, OpenRouter, or any custom LLM.",
   "main": "index.js",
   "bin": {
