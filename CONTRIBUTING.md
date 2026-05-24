@@ -9,7 +9,7 @@ Thanks for your interest in contributing! This guide will help you get started.
 ### 1. Fork and Clone
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/ai-terminal
+git clone https://github.com/jainam014/ai-terminal
 cd ai-terminal
 ```
 
