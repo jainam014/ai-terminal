@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>AI Terminal - Setup</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+          sans-serif;
+        background: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .container {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 32px;
+        max-width: 400px;
+        width: 100%;
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 8px;
+        text-align: center;
+      }
+      .subtitle {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 24px;
+        text-align: center;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        font-size: 14px;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        font-family: monospace;
+      }
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+      }
+      .link-text {
+        font-size: 12px;
+        color: #007bff;
+        text-decoration: none;
+      }
+      .link-text:hover {
+        text-decoration: underline;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+      .error {
+        color: #dc3545;
+        font-size: 13px;
+        margin-top: 4px;
+      }
+      .info-box {
+        background: #e7f3ff;
+        border-left: 3px solid #007bff;
+        padding: 12px;
+        margin-bottom: 16px;
+        border-radius: 4px;
+        font-size: 13px;
+        color: #004085;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🤖 AI Terminal</h1>
+      <p class="subtitle">Setup your API key to get started</p>
+
+      <div class="info-box">
+        <strong>First time setup:</strong> Enter your OpenRouter or OpenAI API
+        key below.
+      </div>
+
+      <form id="form">
+        <div class="form-group">
+          <label for="provider">LLM Provider:</label>
+          <select id="provider" name="provider" required>
+            <option value="openrouter">OpenRouter (Free tier available)</option>
+            <option value="openai">OpenAI</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="apiKey">API Key:</label>
+          <input
+            type="password"
+            id="apiKey"
+            name="apiKey"
+            placeholder="sk-or-v1-... or sk-..."
+            required
+            autocomplete="off"
+          />
+          <div id="error" class="error"></div>
+        </div>
+
+        <div class="form-group">
+          <p style="font-size: 12px; color: #666; margin-bottom: 8px">
+            Don't have an API key?
+          </p>
+          <p style="margin-bottom: 8px">
+            <a
+              href="https://openrouter.ai"
+              class="link-text"
+              onclick="openLink('https://openrouter.ai'); return false"
+            >
+              Get a free OpenRouter key →
+            </a>
+          </p>
+          <p>
+            <a
+              href="https://platform.openai.com"
+              class="link-text"
+              onclick="openLink('https://platform.openai.com'); return false"
+            >
+              Get an OpenAI key →
+            </a>
+          </p>
+        </div>
+
+        <button type="submit" id="submitBtn">Continue</button>
+      </form>
+    </div>
+
+    <script>
+      const form = document.getElementById('form');
+      const apiKeyInput = document.getElementById('apiKey');
+      const errorDiv = document.getElementById('error');
+      const submitBtn = document.getElementById('submitBtn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorDiv.textContent = '';
+
+        const provider = document.getElementById('provider').value;
+        const apiKey = apiKeyInput.value.trim();
+
+        if (!apiKey) {
+          errorDiv.textContent = 'API key is required';
+          return;
+        }
+
+        if (apiKey.length < 10) {
+          errorDiv.textContent = 'API key appears to be invalid';
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Setting up...';
+
+        try {
+          await window.api.setApiKey(apiKey, provider);
+          window.api.sendFirstRunComplete();
+        } catch (err) {
+          errorDiv.textContent = `Error: ${err.message}`;
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Continue';
+        }
+      });
+
+      function openLink(url) {
+        const { shell } = require('electron');
+        shell.openExternal(url);
+      }
+    </script>
+  </body>
+</html>

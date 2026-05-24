@@ -1,0 +1,60 @@
+{
+  "name": "ai-terminal-core",
+  "version": "1.0.0",
+  "description": "Convert natural language into safe PowerShell commands. Supports OpenAI, Claude, Ollama, OpenRouter, or any custom LLM.",
+  "main": "index.js",
+  "bin": {
+    "ai-terminal": "./bin/ai-terminal.js"
+  },
+  "files": [
+    "index.js",
+    "bin/",
+    "src/"
+  ],
+  "keywords": [
+    "ai",
+    "terminal",
+    "powershell",
+    "llm",
+    "claude",
+    "openai",
+    "ollama",
+    "openrouter",
+    "natural-language",
+    "command-generation",
+    "safety-policy"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jainam014/ai-terminal"
+  },
+  "homepage": "https://github.com/jainam014/ai-terminal",
+  "bugs": {
+    "url": "https://github.com/jainam014/ai-terminal/issues"
+  },
+  "author": "AI Terminal Contributors",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js",
+    "ai": "node ./cli/ai.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^5.0.0",
+    "openai": "^5.0.0",
+    "sqlite3": "^6.0.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "supertest": "^6.3.3",
+    "vitest": "^1.0.4"
+  }
+}

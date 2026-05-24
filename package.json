@@ -1,0 +1,61 @@
+{
+  "name": "ai-terminal",
+  "version": "1.0.0",
+  "description": "Convert natural language into safe PowerShell commands using AI",
+  "main": "desktop/main.js",
+  "author": "AI Terminal Contributors",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\" \"wait-on http://localhost:5000 http://localhost:5173 && electron .\"",
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend && npm run dev",
+    "build": "npm run build:frontend && electron-builder",
+    "build:frontend": "cd frontend && npm run build",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "electron-is-dev": "^2.0.0",
+    "electron-store": "^8.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^31.0.0",
+    "electron-builder": "^24.9.1",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.ai-terminal.app",
+    "productName": "AI Terminal",
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "AI Terminal"
+    },
+    "files": [
+      "desktop/**/*",
+      "backend/**/*",
+      "frontend/dist/**/*",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "desktop/main.js"
+    }
+  }
+}
